@@ -24,6 +24,11 @@ export class SuperJump extends PowerUp {
 	}
 }
 
+export class SuperJumpMBU extends SuperJump {
+	dtsPath = "shapes_mbu/items/superjump.dts";
+	pickUpName = "Super Jump PowerUp";
+}
+
 export const superJumpParticleOptions = {
 	ejectionPeriod: 10,
 	ambientVelocity: new Vector3(0, 0, 0.05),

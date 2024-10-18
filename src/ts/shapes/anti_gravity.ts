@@ -32,3 +32,9 @@ export class AntiGravity extends PowerUp {
 		this.level.audio.play(this.sounds[0]);
 	}
 }
+
+export class AntiGravityMBU extends AntiGravity {
+	dtsPath = "shapes_mbu/items/antigravity.dts";
+	autoUse = true;
+	pickUpName = "Gravity Modifier";
+}

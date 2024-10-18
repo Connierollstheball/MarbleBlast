@@ -2,23 +2,23 @@ import { Interior } from "./interior";
 import { Marble, bounceParticleOptions } from "./marble";
 import { Shape, SharedShapeData } from "./shape";
 import { MissionElementSimGroup, MissionElementType, MissionElementStaticShape, MissionElementItem, MisParser, MissionElementTrigger, MissionElementInteriorInstance, MissionElementTSStatic, MissionElementParticleEmitterNode, MissionElementSky } from "./parsing/mis_parser";
-import { StartPad } from "./shapes/start_pad";
+import { StartPad, StartPadMBU } from "./shapes/start_pad";
 import { SignFinish } from "./shapes/sign_finish";
-import { SignPlain } from "./shapes/sign_plain";
-import { EndPad, fireworkSmoke, redSpark, redTrail, blueSpark, blueTrail } from "./shapes/end_pad";
-import { Gem } from "./shapes/gem";
-import { SuperJump, superJumpParticleOptions } from "./shapes/super_jump";
+import { SignPlain, MBUSign } from "./shapes/sign_plain";
+import { EndPad, EndPadMBU, MBUBeam, fireworkSmoke, redSpark, redTrail, blueSpark, blueTrail } from "./shapes/end_pad";
+import { Gem, GemMBU } from "./shapes/gem";
+import { SuperJump, SuperJumpMBU, superJumpParticleOptions } from "./shapes/super_jump";
 import { SignCaution } from "./shapes/sign_caution";
 import { SuperBounce } from "./shapes/super_bounce";
-import { RoundBumper } from "./shapes/round_bumper";
-import { Helicopter } from "./shapes/helicopter";
-import { DuctFan } from "./shapes/duct_fan";
-import { AntiGravity } from "./shapes/anti_gravity";
+import { RoundBumper, RoundBumperMBU } from "./shapes/round_bumper";
+import { Helicopter, HelicopterMBU } from "./shapes/helicopter";
+import { DuctFan, DuctFanMBU } from "./shapes/duct_fan";
+import { AntiGravity, AntiGravityMBU } from "./shapes/anti_gravity";
 import { LandMine, landMineSmokeParticle, landMineSparksParticle } from "./shapes/land_mine";
 import { ShockAbsorber } from "./shapes/shock_absorber";
-import { SuperSpeed, superSpeedParticleOptions } from "./shapes/super_speed";
-import { TimeTravel } from "./shapes/time_travel";
-import { Tornado } from "./shapes/tornado";
+import { SuperSpeed, SuperSpeedMBU, superSpeedParticleOptions } from "./shapes/super_speed";
+import { TimeTravel, TimeTravelMBU } from "./shapes/time_travel";
+import { Tornado, TornadoMBU } from "./shapes/tornado";
 import { TrapDoor } from "./shapes/trap_door";
 import { TriangleBumper } from "./shapes/triangle_bumper";
 import { Oilslick } from "./shapes/oilslick";
@@ -44,16 +44,17 @@ import { Magnet } from "./shapes/magnet";
 import { Nuke, nukeSmokeParticle, nukeSparksParticle } from "./shapes/nuke";
 import { TeleportTrigger } from "./triggers/teleport_trigger";
 import { DestinationTrigger } from "./triggers/destination_trigger";
-import { Checkpoint } from "./shapes/checkpoint";
+import { Checkpoint, CheckpointMBU } from "./shapes/checkpoint";
 import { CheckpointTrigger } from "./triggers/checkpoint_trigger";
-import { EasterEgg } from "./shapes/easter_egg";
+import { EasterEgg, EasterEggMBU } from "./shapes/easter_egg";
 import { RandomPowerUp } from "./shapes/random_power_up";
 import { MbpPauseScreen } from "./ui/pause_screen_mbp";
 import { MbpHud } from "./ui/hud_mbp";
 import { Sky } from "./shapes/sky";
+import { Astrolabe } from "./shapes/astrolabe";
 import { Glass } from "./shapes/glass";
-import { Blast } from "./shapes/blast";
-import { MegaMarble } from "./shapes/mega_marble";
+import { Blast, BlastMBU } from "./shapes/blast";
+import { MegaMarble, MegaMarbleMBU } from "./shapes/mega_marble";
 import { Scene } from "./rendering/scene";
 import { CubeTexture } from "./rendering/cube_texture";
 import { Material } from "./rendering/material";
@@ -85,7 +86,11 @@ const SHAPE_OVERLAY_OFFSETS = {
 	"shapes/items/superbounce.dts": -55,
 	"shapes/items/superspeed.dts": -53,
 	"shapes/items/shockabsorber.dts": -53,
-	"shapes/items/megamarble.dts": -70
+	"shapes/items/megamarble.dts": -70,
+	"shapes_mbu/images/megamarble.dts": -70,
+	"shapes_mbu/images/helicopter.dts": -67,
+	"shapes_mbu/items/superspeed.dts": -53,
+	"shapes_mbu/items/superjump.dts": -70
 };
 const SHAPE_OVERLAY_SCALES = {
 	"shapes/items/megamarble.dts": 60
@@ -285,7 +290,7 @@ export class Level extends Scheduler {
 				// Override the end pad element. We do this because only the last finish pad element will actually do anything.
 				if (
 					element._type === MissionElementType.StaticShape &&
-					['endpad', 'endpad_mbg', 'endpad_mbp'].includes(element.datablock?.toLowerCase())
+					['endpad', 'endpad_mbg', 'endpad_mbp', 'endpad_mbu'].includes(element.datablock?.toLowerCase())
 				) {
 					this.endPadElement = element;
 				}
@@ -676,38 +681,56 @@ export class Level extends Scheduler {
 		let dataBlockLowerCase = element.datablock?.toLowerCase();
 		if (!dataBlockLowerCase) { /* Make sure we don't do anything if there's no data block */ }
 		else if (["startpad", "startpad_mbg", "startpad_mbp"].includes(dataBlockLowerCase)) shape = new StartPad();
+		else if (dataBlockLowerCase === "startpad_mbu") shape = new StartPadMBU();
 		else if (["endpad", "endpad_mbg", "endpad_mbp"].includes(dataBlockLowerCase)) shape = new EndPad(element === this.endPadElement);
+		else if (dataBlockLowerCase === "endpad_mbu") shape = new EndPadMBU(element === this.endPadElement);
 		else if (dataBlockLowerCase === "signfinish") shape = new SignFinish();
 		else if (dataBlockLowerCase.startsWith("signplain")) shape = new SignPlain(element as MissionElementStaticShape);
-		else if (dataBlockLowerCase.startsWith("gemitem")) shape = new Gem(element as MissionElementItem), this.totalGems++;
+		else if (dataBlockLowerCase.startsWith("gemitem") && !dataBlockLowerCase.endsWith("_mbu")) shape = new Gem(element as MissionElementItem), this.totalGems++;
+		else if (dataBlockLowerCase.startsWith("gemitem") && dataBlockLowerCase.endsWith("_mbu")) shape = new GemMBU(element as MissionElementItem), this.totalGems++;
 		else if (dataBlockLowerCase === "superjumpitem") shape = new SuperJump(element as MissionElementItem);
+		else if (dataBlockLowerCase === "superjumpitem_mbu") shape = new SuperJumpMBU(element as MissionElementItem);
 		else if (dataBlockLowerCase.startsWith("signcaution")) shape = new SignCaution(element as MissionElementStaticShape);
 		else if (dataBlockLowerCase === "superbounceitem") shape = new SuperBounce(element as MissionElementItem);
 		else if (dataBlockLowerCase === "roundbumper") shape = new RoundBumper();
+		else if (dataBlockLowerCase === "roundbumper_mbu") shape = new RoundBumperMBU();
 		else if (dataBlockLowerCase === "trianglebumper") shape = new TriangleBumper();
 		else if (dataBlockLowerCase === "helicopteritem") shape = new Helicopter(element as MissionElementItem);
+		else if (dataBlockLowerCase === "helicopteritem_mbu") shape = new HelicopterMBU(element as MissionElementItem);
 		else if (dataBlockLowerCase === "ductfan") shape = new DuctFan();
+		else if (dataBlockLowerCase === "ductfan_mbu") shape = new DuctFanMBU();
 		else if (dataBlockLowerCase === "smallductfan") shape = new SmallDuctFan();
 		else if (dataBlockLowerCase === "antigravityitem") shape = new AntiGravity(element as MissionElementItem);
+		else if (dataBlockLowerCase === "antigravityitem_mbu") shape = new AntiGravityMBU(element as MissionElementItem);
 		else if (dataBlockLowerCase === "norespawnantigravityitem") shape = new AntiGravity(element as MissionElementItem, true);
+		else if (dataBlockLowerCase === "norespawnantigravityitem_mbu") shape = new AntiGravityMBU(element as MissionElementItem, true);
 		else if (dataBlockLowerCase === "landmine") shape = new LandMine();
 		else if (dataBlockLowerCase === "shockabsorberitem") shape = new ShockAbsorber(element as MissionElementItem);
 		else if (dataBlockLowerCase === "superspeeditem") shape = new SuperSpeed(element as MissionElementItem);
+		else if (dataBlockLowerCase === "superspeeditem_mbu") shape = new SuperSpeedMBU(element as MissionElementItem);
 		else if (["timetravelitem", "timepenaltyitem"].includes(dataBlockLowerCase)) shape = new TimeTravel(element as MissionElementItem);
+		else if (["timetravelitem_mbu", "timepenaltyitem_mbu"].includes(dataBlockLowerCase)) shape = new TimeTravelMBU(element as MissionElementItem);
 		else if (dataBlockLowerCase === "tornado") shape = new Tornado();
+		else if (dataBlockLowerCase === "tornado_mbu") shape = new TornadoMBU();
 		else if (dataBlockLowerCase === "trapdoor") shape = new TrapDoor(element as MissionElementStaticShape);
 		else if (dataBlockLowerCase === "oilslick") shape = new Oilslick();
 		else if (dataBlockLowerCase === "pushbutton") shape = new PushButton();
 		else if (dataBlockLowerCase.startsWith("sign") || dataBlockLowerCase === "arrow") shape = new Sign(element as MissionElementStaticShape);
+		else if (["arrowup", "arrowside", "arrowdown"].includes(dataBlockLowerCase)) shape = new MBUSign(dataBlockLowerCase);
 		else if (dataBlockLowerCase === "magnet") shape = new Magnet();
 		else if (dataBlockLowerCase === "nuke") shape = new Nuke();
 		else if (dataBlockLowerCase === "checkpoint") shape = new Checkpoint();
+		else if (dataBlockLowerCase === "checkpoint_mbu") shape = new CheckpointMBU();
 		else if (dataBlockLowerCase === "easteregg") shape = new EasterEgg(element as MissionElementItem);
+		else if (dataBlockLowerCase === "easteregg_mbu") shape = new EasterEggMBU(element as MissionElementItem);
 		else if (dataBlockLowerCase === "randompowerupitem") shape = new RandomPowerUp(element as MissionElementItem);
 		else if (["clear", "cloudy", "dusk", "wintry"].includes(dataBlockLowerCase)) shape = new Sky(dataBlockLowerCase);
+		else if (dataBlockLowerCase === "astrolabe") shape = new Astrolabe();
 		else if (/glass_\d+shape/.test(dataBlockLowerCase)) shape = new Glass(dataBlockLowerCase);
 		else if (dataBlockLowerCase === "blastitem") shape = new Blast(element as MissionElementItem);
+		else if (dataBlockLowerCase === "blastitem_mbu") shape = new BlastMBU(element as MissionElementItem);
 		else if (dataBlockLowerCase === "megamarbleitem") shape = new MegaMarble(element as MissionElementItem);
+		else if (dataBlockLowerCase === "megamarbleitem_mbu") shape = new MegaMarbleMBU(element as MissionElementItem);
 
 		if (!shape) return;
 
@@ -727,6 +750,42 @@ export class Level extends Scheduler {
 		if (shapeScale.z === 0) shapeScale.z = 0.0001;
 
 		shape.setTransform(shapePosition, shapeRotation, shapeScale);
+
+		// Add both the StartPad beam, which we will manipulate in the StartPad's shape file, and the EndPad's beam, which will persist. ~ Connie
+		if (dataBlockLowerCase === "endpad_mbu" || dataBlockLowerCase === "startpad_mbu")
+		{
+			let beam: Shape = new MBUBeam();
+			this.shapes.push(beam);
+			await beam.init(this);
+			beam.setTransform(shapePosition, shapeRotation, shapeScale);
+			this.scene.add(beam.group);
+
+			for (let body of beam.bodies) this.world.add(body);
+
+			if (dataBlockLowerCase === "startpad_mbu")
+			{
+				let startpad: StartPadMBU = shape as StartPadMBU;
+				startpad.startbeam = beam;
+			}
+		}
+
+		// Initiate a new material for the active state of a checkpoint. (Temporary Compromise?) ~ Connie
+		if (dataBlockLowerCase === "checkpoint_mbu")
+		{
+			let fakecheckpad: Shape = new Shape();
+			fakecheckpad.dtsPath = "shapes_mbu/pads/checkpad.dts";
+			fakecheckpad.collideable = false;
+			fakecheckpad.matNamesOverride["sigiloff"] = "sigilon";
+			this.shapes.push(fakecheckpad);
+			await fakecheckpad.init(this);
+			fakecheckpad.setTransform(shapePosition, shapeRotation, shapeScale);
+			this.scene.add(fakecheckpad.group);
+
+			for (let body of fakecheckpad.bodies) this.world.add(body);
+
+			let checkpoint: CheckpointMBU = shape as CheckpointMBU;
+			checkpoint.fakeCheckPad = fakecheckpad;
+		}
 
 		this.scene.add(shape.group);
 
@@ -1303,7 +1362,13 @@ export class Level extends Scheduler {
 	/** Gets the position and orientation of the player spawn point. */
 	getStartPositionAndOrientation() {
 		// The player is spawned at the last start pad in the mission file.
-		let startPad = Util.findLast(this.shapes, (shape) => shape instanceof StartPad);
+		let startPad = Util.findLast(this.shapes, (shape) => shape instanceof StartPadMBU);
+
+		if (!startPad)
+		{
+			startPad = Util.findLast(this.shapes, (shape) => shape instanceof StartPad);
+		}
+
 		let position: Vector3;
 		let euler = new Euler();
 
@@ -1581,7 +1646,13 @@ export class Level extends Scheduler {
 			this.finishYaw = this.yaw;
 			this.finishPitch = this.pitch;
 
-			let endPad = Util.findLast(this.shapes, (shape) => shape instanceof EndPad) as EndPad;
+			let endPad = Util.findLast(this.shapes, (shape) => shape instanceof EndPadMBU) as EndPad;
+
+			if (!endPad)
+			{
+				endPad = Util.findLast(this.shapes, (shape) => shape instanceof EndPad) as EndPad;
+			}
+
 			endPad?.spawnFirework(this.timeState); // EndPad *might* not exist, in that case no fireworks lol
 
 			state.menu.hud.displayAlert("Congratulations! You've finished!");

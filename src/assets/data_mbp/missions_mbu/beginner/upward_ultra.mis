@@ -22,7 +22,7 @@ new SimGroup(MissionGroup) {
       position = "336 136 0";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      materialList = "~/data/skies/Cloudy/cloudy.dml";
+      materialList = "~/data/skies_mbu/beginner/sky_beginner.dml";
       cloudHeightPer[0] = "0";
       cloudHeightPer[1] = "0";
       cloudHeightPer[2] = "0";
@@ -46,10 +46,10 @@ new SimGroup(MissionGroup) {
       fogVolumeColor3 = "128.000000 128.000000 128.000000 -335191603804879520000000000000000000000.000000";
    };
    new StaticShape() {
-      position = "0 0 0";
+      position = "0 0 -600";
       rotation = "1 0 0 0";
-      scale = "5000 5000 5000";
-      dataBlock = "clear";
+      scale = "1 1 1";
+      dataBlock = "astrolabe";
    };
    new Sun() {
       direction = "0.573201 0.275357 -0.771764";
@@ -68,7 +68,7 @@ new SimGroup(MissionGroup) {
       position = "30 9.03125 37.6245";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "SuperSpeedItem";
+      dataBlock = "SuperSpeedItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -77,7 +77,7 @@ new SimGroup(MissionGroup) {
       position = "-16.55 -73.15 63.1558";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "SuperSpeedItem";
+      dataBlock = "SuperSpeedItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -86,7 +86,7 @@ new SimGroup(MissionGroup) {
       position = "30.7 -69.975 88.19";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "SuperJumpItem";
+      dataBlock = "SuperJumpItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -95,7 +95,7 @@ new SimGroup(MissionGroup) {
       position = "30.8 -16.375 106.758";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "SuperJumpItem";
+      dataBlock = "SuperJumpItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -126,7 +126,7 @@ new SimGroup(MissionGroup) {
       position = "20 -10.05 113.093";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "SuperSpeedItem";
+      dataBlock = "SuperSpeedItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -142,7 +142,7 @@ new SimGroup(MissionGroup) {
       position = "-19.4873 -39.9033 63.5453";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "TimeTravelItem";
+      dataBlock = "TimeTravelItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -151,7 +151,7 @@ new SimGroup(MissionGroup) {
       position = "-15.0438 -8.5134 63.6054";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "TimeTravelItem";
+      dataBlock = "TimeTravelItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -160,7 +160,7 @@ new SimGroup(MissionGroup) {
       position = "-17.1986 -25.7457 63.6054";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "TimeTravelItem";
+      dataBlock = "TimeTravelItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -169,7 +169,7 @@ new SimGroup(MissionGroup) {
       position = "-33.1286 9.1095 12.687";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "SuperSpeedItem";
+      dataBlock = "SuperSpeedItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -184,7 +184,7 @@ new SimGroup(MissionGroup) {
       position = "30.7954 -67.1584 88.462";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "TimeTravelItem";
+      dataBlock = "TimeTravelItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -193,7 +193,7 @@ new SimGroup(MissionGroup) {
       position = "0.764446 -10.3039 128.063";
       rotation = "1 0 0 0";
       scale = "1 1 1.2";
-      dataBlock = "EasterEgg";
+      dataBlock = "EasterEgg_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -207,11 +207,11 @@ new SimGroup(MissionGroup) {
          polyhedron = "0.0000000 0.0000000 0.0000000 1.0000000 0.0000000 0.0000000 0.0000000 -1.0000000 0.0000000 0.0000000 0.0000000 1.0000000";
          respawnPoint = "check1";
       };
-      new TSStatic(check1) {
+      new StaticShape(check1) {
          position = "-35.0178 8.78253 12.5036";
          rotation = "0 0 1 89.9544";
-         scale = "0.5 0.5 0.5";
-         shapename = "~/data/shapes/buttons/checkpoint.dts";
+         scale = "1 1 1";
+         datablock = "Checkpoint_MBU";
       };
    };
    new SimGroup() {
@@ -223,11 +223,11 @@ new SimGroup(MissionGroup) {
          polyhedron = "0.0000000 0.0000000 0.0000000 1.0000000 0.0000000 0.0000000 0.0000000 -1.0000000 0.0000000 0.0000000 0.0000000 1.0000000";
          respawnPoint = "check2";
       };
-      new TSStatic(check2) {
+      new StaticShape(check2) {
          position = "-19.2515 8.79817 62.9787";
          rotation = "0 0 1 179.909";
-         scale = "0.5 0.5 0.5";
-         shapename = "~/data/shapes/buttons/checkpoint.dts";
+         scale = "1 1 1";
+         datablock = "Checkpoint_MBU";
       };
    };
    new SimGroup() {
@@ -239,11 +239,11 @@ new SimGroup(MissionGroup) {
          polyhedron = "0.0000000 0.0000000 0.0000000 1.0000000 0.0000000 0.0000000 0.0000000 -1.0000000 0.0000000 0.0000000 0.0000000 1.0000000";
          respawnPoint = "check3";
       };
-      new TSStatic(check3) {
+      new StaticShape(check3) {
          position = "28.7281 -77.2512 87.9152";
          rotation = "1 0 0 0";
-         scale = "0.5 0.5 0.5";
-         shapename = "~/data/shapes/buttons/checkpoint.dts";
+         scale = "1 1 1";
+         datablock = "Checkpoint_MBU";
       };
    };
 };

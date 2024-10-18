@@ -26,3 +26,7 @@ export class EasterEgg extends PowerUp {
 
 	use() {}
 }
+
+export class EasterEggMBU extends EasterEgg {
+	dtsPath = "shapes_mbu/items/egg.dts";
+}

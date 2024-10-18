@@ -746,19 +746,28 @@ export class Shape {
 					let rot1 = this.dts.nodeRotations[sequence.numKeyframes * affectedCount + keyframeLow];
 					let rot2 = this.dts.nodeRotations[sequence.numKeyframes * affectedCount + keyframeHigh];
 
-					let quaternion1 = new Quaternion(rot1.x, rot1.y, rot1.z, rot1.w);
-					quaternion1.normalize();
-					quaternion1.conjugate();
+					if (rot1 != undefined && rot2 != undefined) {
+						let quaternion1 = new Quaternion(rot1.x, rot1.y, rot1.z, rot1.w);
+						quaternion1.normalize();
+						quaternion1.conjugate();
 
-					let quaternion2 = new Quaternion(rot2.x, rot2.y, rot2.z, rot2.w);
-					quaternion2.normalize();
-					quaternion2.conjugate();
+						let quaternion2 = new Quaternion(rot2.x, rot2.y, rot2.z, rot2.w);
+						quaternion2.normalize();
+						quaternion2.conjugate();
 
-					// Interpolate between the two quaternions
-					quaternion1.slerp(quaternion2, t);
+						// Interpolate between the two quaternions
+						quaternion1.slerp(quaternion2, t);
 
-					affectedCount++;
-					return quaternion1;
+						affectedCount++;
+						return quaternion1;
+					} else {
+						let rotation = this.dts.defaultRotations[index];
+						let quaternion = new Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+						quaternion.normalize();
+						quaternion.conjugate();
+	
+						return quaternion;
+					}
 				} else {
 					// The rotation for this node is not animated and therefore we return the default rotation.
 					let rotation = this.dts.defaultRotations[index];
@@ -781,8 +790,14 @@ export class Shape {
 
 					affectedCount++;
 
-					// Interpolate between the two translations
-					return new Vector3(Util.lerp(trans1.x, trans2.x, t), Util.lerp(trans1.y, trans2.y, t), Util.lerp(trans1.z, trans2.z, t));
+					if (trans1 != undefined && trans2 != undefined) {
+						// Interpolate between the two translations
+						return new Vector3(Util.lerp(trans1.x, trans2.x, t), Util.lerp(trans1.y, trans2.y, t), Util.lerp(trans1.z, trans2.z, t));
+					} else {
+						// The translation for this node is not animated and therefore we return the default translation.
+						let translation = this.dts.defaultTranslations[index];
+						return new Vector3(translation.x, translation.y, translation.z);
+					}
 				} else {
 					// The translation for this node is not animated and therefore we return the default translation.
 					let translation = this.dts.defaultTranslations[index];
@@ -801,8 +816,13 @@ export class Shape {
 
 					affectedCount++;
 
-					// Interpolate between the two scales
-					return new Vector3(Util.lerp(scale1.x, scale2.x, t), Util.lerp(scale1.y, scale2.y, t), Util.lerp(scale1.z, scale2.z, t));
+					if (scale1 != undefined && scale2 != undefined)
+					{
+						// Interpolate between the two scales
+						return new Vector3(Util.lerp(scale1.x, scale2.x, t), Util.lerp(scale1.y, scale2.y, t), Util.lerp(scale1.z, scale2.z, t));
+					} else {
+						return new Vector3().setScalar(1);
+					}
 				} else {
 					// The scale for this node is not animated and therefore we return the default scale.
 					return new Vector3().setScalar(1); // Apparently always this

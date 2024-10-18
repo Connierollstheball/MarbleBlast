@@ -20,3 +20,7 @@ export class DuctFan extends ForceShape {
 		await this.soundSource.promise;
 	}
 }
+
+export class DuctFanMBU extends DuctFan {
+	dtsPath = "shapes_mbu/hazards/ductfan.dts";
+}

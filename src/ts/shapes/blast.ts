@@ -15,3 +15,7 @@ export class Blast extends PowerUp {
 		this.level.blastAmount = 1.03;
 	}
 }
+
+export class BlastMBU extends Blast {
+	dtsPath = 'shapes_mbu/images/blast.dts';
+}

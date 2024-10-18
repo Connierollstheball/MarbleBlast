@@ -24,3 +24,7 @@ export class Tornado extends ForceShape {
 		await this.soundSource.promise;
 	}
 }
+
+export class TornadoMBU extends Tornado {
+	dtsPath = "shapes_mbu/hazards/tornado.dts";
+}

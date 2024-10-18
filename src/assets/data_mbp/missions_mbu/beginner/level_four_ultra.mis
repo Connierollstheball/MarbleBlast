@@ -16,7 +16,7 @@ new SimGroup(MissionGroup) {
       position = "336 136 0";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      materialList = "~/data/skies/Cloudy/cloudy.dml";
+      materialList = "~/data/skies_mbu/beginner/sky_beginner.dml";
       cloudHeightPer[0] = "0";
       cloudHeightPer[1] = "0";
       cloudHeightPer[2] = "0";
@@ -54,7 +54,7 @@ new SimGroup(MissionGroup) {
          position = "114 44 20";
          rotation = "1 0 0 0";
          scale = "1 1 1";
-         dataBlock = "StartPad";
+         dataBlock = "StartPad_MBU";
       };
    };
    new Trigger() {
@@ -69,7 +69,7 @@ new SimGroup(MissionGroup) {
       position = "-24 -42 20";
       rotation = "0 0 1 180";
       scale = "1 1 1";
-      dataBlock = "EndPad";
+      dataBlock = "EndPad_MBU";
    };
    new InteriorInstance() {
       position = "54 35.5 19.5";
@@ -136,10 +136,10 @@ new SimGroup(MissionGroup) {
          text = "Watch your step on this narrow bridge!\nIf you fall off you will lose time!";
    };
    new StaticShape() {
-      position = "0 0 0";
+      position = "0 0 -600";
       rotation = "1 0 0 0";
-      scale = "5000 5000 5000";
-      dataBlock = "clear";
+      scale = "1 1 1";
+      dataBlock = "astrolabe";
    };
    new Trigger(Bounds) {
       position = "-33.5 75.5 12.6729";
@@ -226,11 +226,11 @@ new SimGroup(MissionGroup) {
          polyhedron = "0.0000000 0.0000000 0.0000000 1.0000000 0.0000000 0.0000000 0.0000000 -1.0000000 0.0000000 0.0000000 0.0000000 1.0000000";
          respawnPoint = "check1";
       };
-      new TSStatic(check1) {
+      new StaticShape(check1) {
          position = "55.0185 -8.9832 20.004";
          rotation = "0 0 1 179.336";
-         scale = "0.5 0.5 0.5";
-         shapename = "~/data/shapes/buttons/checkpoint.dts";
+         scale = "1 1 1";
+         datablock = "Checkpoint_MBU";
       };
    };
    new StaticShape() {

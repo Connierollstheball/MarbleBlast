@@ -116,6 +116,8 @@ export class Marble {
 	forcefield: Shape;
 	/** Helicopter shown above the marble shown during gyrocopter usage. */
 	helicopter: Shape;
+	helicopterMBU: Shape;
+	useMBUHeliimage = false;
 	superBounceEnableTime = -Infinity;
 	shockAbsorberEnableTime = -Infinity;
 	helicopterEnableTime = -Infinity;
@@ -263,6 +265,14 @@ export class Marble {
 		this.helicopter.setOpacity(0);
 		this.group.add(this.helicopter.group);
 
+		// Possibly there's a better way of handling a different Helicopter image, but for now this'll do. ~ Connie
+		this.helicopterMBU = new Shape();
+		this.helicopterMBU.dtsPath = "shapes_mbu/images/helicopter_image.dts";
+		this.helicopterMBU.castShadows = true;
+		await this.helicopterMBU.init(this.level);
+		this.helicopterMBU.setOpacity(0);
+		this.group.add(this.helicopterMBU.group);
+	
 		// Load the necessary rolling sounds
 		let toLoad = ["jump.wav", "bouncehard1.wav", "bouncehard2.wav", "bouncehard3.wav", "bouncehard4.wav", "rolling_hard.wav", "sliding.wav"];
 		if (this.level.mission.hasBlast) toLoad.push("blast.wav");
@@ -607,8 +617,15 @@ export class Marble {
 
 		if (time.currentAttemptTime - this.helicopterEnableTime < 5000) {
 			// Show the helicopter
-			this.helicopter.setOpacity(1);
+			if (this.useMBUHeliimage === true) {
+				this.helicopterMBU.setOpacity(1);
+			} else {
+				this.helicopter.setOpacity(1);
+			}
+
 			this.helicopter.setTransform(new Vector3(0, 0, this.radius - DEFAULT_RADIUS).applyQuaternion(this.level.newOrientationQuat), this.level.newOrientationQuat, new Vector3(1, 1, 1));
+			this.helicopterMBU.setTransform(new Vector3(0, 0, this.radius - DEFAULT_RADIUS).applyQuaternion(this.level.newOrientationQuat), this.level.newOrientationQuat, new Vector3(1, 1, 1));
+
 			this.level.setGravityIntensity(this.level.defaultGravity * 0.25);
 
 			if (!this.helicopterSound) {
@@ -618,7 +635,9 @@ export class Marble {
 			}
 		} else {
 			// Stop the helicopter
+			this.helicopterMBU.setOpacity(0);
 			this.helicopter.setOpacity(0);
+		
 			this.level.setGravityIntensity(this.level.defaultGravity);
 
 			this.helicopterSound?.stop();
@@ -700,7 +719,7 @@ export class Marble {
 		this.innerGroup.recomputeTransform();
 
 		this.forcefield.render(time);
-		if (time.currentAttemptTime - this.helicopterEnableTime < 5000) this.helicopter.render(time);
+		if (time.currentAttemptTime - this.helicopterEnableTime < 5000) this.helicopter.render(time); this.helicopterMBU.render(time);
 
 		// Update the teleporting look:
 
@@ -731,7 +750,8 @@ export class Marble {
 		this.shockAbsorberEnableTime = time.currentAttemptTime;
 	}
 
-	enableHelicopter(time: TimeState) {
+	enableHelicopter(time: TimeState, isMBUHelicopter: boolean) {
+		this.useMBUHeliimage = isMBUHelicopter;
 		this.helicopterEnableTime = time.currentAttemptTime;
 	}
 

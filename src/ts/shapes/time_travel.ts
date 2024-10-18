@@ -43,3 +43,7 @@ export class TimeTravel extends PowerUp {
 		this.level.addTimeTravelBonus(this.timeBonus, timeToRevert);
 	}
 }
+
+export class TimeTravelMBU extends TimeTravel {
+	dtsPath = "shapes_mbu/items/timetravel.dts";
+}

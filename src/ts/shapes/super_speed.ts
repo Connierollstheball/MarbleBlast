@@ -38,6 +38,11 @@ export class SuperSpeed extends PowerUp {
 	}
 }
 
+export class SuperSpeedMBU extends SuperSpeed {
+	dtsPath = "shapes_mbu/items/superspeed.dts";
+	pickUpName = "Super Speed PowerUp";
+}
+
 export const superSpeedParticleOptions = {
 	ejectionPeriod: 5,
 	ambientVelocity: new Vector3(0, 0, 0.2),

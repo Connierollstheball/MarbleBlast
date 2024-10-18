@@ -5,3 +5,7 @@ export class RoundBumper extends AbstractBumper {
 	dtsPath = "shapes/bumpers/pball_round.dts";
 	sounds = ["bumperding1.wav"];
 }
+
+export class RoundBumperMBU extends RoundBumper {
+	dtsPath = "shapes_mbu/bumpers/pball_round.dts";
+}

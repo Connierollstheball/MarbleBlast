@@ -15,3 +15,7 @@ export class MegaMarble extends PowerUp {
 		this.level.audio.play(this.sounds[1]);
 	}
 }
+
+export class MegaMarbleMBU extends MegaMarble {
+	dtsPath = 'shapes_mbu/images/megamarble.dts';
+}

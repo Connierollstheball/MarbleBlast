@@ -22,7 +22,7 @@ new SimGroup(MissionGroup) {
       position = "336 136 0";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      materialList = "~/data/skies/Cloudy/cloudy.dml";
+      materialList = "~/data/skies_mbu/beginner/sky_beginner.dml";
       cloudHeightPer[0] = "0";
       cloudHeightPer[1] = "0";
       cloudHeightPer[2] = "0";
@@ -52,10 +52,10 @@ new SimGroup(MissionGroup) {
       shadowColor = "0.000000 0.000000 0.150000 0.350000";
    };
    new StaticShape() {
-      position = "0 0 0";
+      position = "0 0 -600";
       rotation = "1 0 0 0";
-      scale = "5000 5000 5000";
-      dataBlock = "clear";
+      scale = "1 1 1";
+      dataBlock = "astrolabe";
    };
    new InteriorInstance() {
       position = "0 0 0";
@@ -209,7 +209,7 @@ new SimGroup(MissionGroup) {
       position = "19.5 25 12.0005";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "MegaMarbleItem";
+      dataBlock = "MegaMarbleItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -226,7 +226,7 @@ new SimGroup(MissionGroup) {
          position = "13 -29 16";
          rotation = "0 0 -1 90";
          scale = "1 1 1";
-         dataBlock = "StartPad";
+         dataBlock = "StartPad_MBU";
       };
    };
    new Trigger() {
@@ -241,7 +241,7 @@ new SimGroup(MissionGroup) {
       position = "64 52 12";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "EndPad";
+      dataBlock = "EndPad_MBU";
    };
    new InteriorInstance() {
       position = "-21.5 -22.5 -4.5";
@@ -451,7 +451,7 @@ new SimGroup(MissionGroup) {
       position = "-32 -28 13.5451";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "GemItem";
+      dataBlock = "GemItemRed_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -460,7 +460,7 @@ new SimGroup(MissionGroup) {
       position = "75 23 14.0451";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "GemItem";
+      dataBlock = "GemItemRed_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -469,7 +469,7 @@ new SimGroup(MissionGroup) {
       position = "73 21 13.0451";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "GemItem";
+      dataBlock = "GemItemRed_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -478,7 +478,7 @@ new SimGroup(MissionGroup) {
       position = "71 25 12.5451";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "GemItem";
+      dataBlock = "GemItemRed_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -487,7 +487,7 @@ new SimGroup(MissionGroup) {
       position = "77 21 12.5451";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "GemItem";
+      dataBlock = "GemItemRed_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -496,7 +496,7 @@ new SimGroup(MissionGroup) {
       position = "73 19 12.0451";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "GemItem";
+      dataBlock = "GemItemRed_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -505,7 +505,7 @@ new SimGroup(MissionGroup) {
       position = "-32 -16 11.9841";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "BlastItem";
+      dataBlock = "BlastItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "0";
@@ -514,7 +514,7 @@ new SimGroup(MissionGroup) {
       position = "-31 23 12.0005";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "MegaMarbleItem";
+      dataBlock = "MegaMarbleItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -555,7 +555,7 @@ new SimGroup(MissionGroup) {
       position = "60.0969 11.3864 12.0005";
       rotation = "1 0 0 0";
       scale = "1 1 1";
-      dataBlock = "MegaMarbleItem";
+      dataBlock = "MegaMarbleItem_MBU";
       collideable = "0";
       static = "1";
       rotate = "1";
@@ -569,11 +569,11 @@ new SimGroup(MissionGroup) {
          polyhedron = "0.0000000 0.0000000 0.0000000 1.0000000 0.0000000 0.0000000 0.0000000 -1.0000000 0.0000000 0.0000000 0.0000000 1.0000000";
          respawnPoint = "check2";
       };
-      new TSStatic(check2) {
+      new StaticShape(check2) {
          position = "-35.0055 24.9916 12.0118";
          rotation = "0 0 1 90.5273";
-         scale = "0.5 0.5 0.5";
-         shapename = "~/data/shapes/buttons/checkpoint.dts";
+         scale = "1 1 1";
+         datablock = "Checkpoint_MBU";
       };
    };
 };

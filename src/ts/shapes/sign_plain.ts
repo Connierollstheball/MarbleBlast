@@ -19,3 +19,24 @@ export class SignPlain extends Shape {
 		}
 	}
 }
+
+export class MBUSign extends Shape {
+	constructor(dataBlock: string) {
+		super();
+
+		console.log(dataBlock);
+
+		switch (dataBlock)
+		{
+			case "arrowup":
+				this.dtsPath = "shapes_mbu/signs/arrowsign_up.dts";
+				break;
+			case "arrowdown":
+				this.dtsPath = "shapes_mbu/signs/arrowsign_down.dts";
+				break;
+			case "arrowside":
+				this.dtsPath = "shapes_mbu/signs/arrowsign_side.dts";
+				break;
+		}
+	}
+}
