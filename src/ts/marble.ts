@@ -624,7 +624,7 @@ export class Marble {
 			}
 
 			this.helicopter.setTransform(new Vector3(0, 0, this.radius - DEFAULT_RADIUS).applyQuaternion(this.level.newOrientationQuat), this.level.newOrientationQuat, new Vector3(1, 1, 1));
-			this.helicopterMBU.setTransform(new Vector3(0, 0, this.radius - DEFAULT_RADIUS).applyQuaternion(this.level.newOrientationQuat), this.level.newOrientationQuat, new Vector3(1, 1, 1));
+			this.helicopterMBU.setTransform(new Vector3(0, 0, this.radius - ULTRA_RADIUS).applyQuaternion(this.level.newOrientationQuat), this.level.newOrientationQuat, new Vector3(1.3, 1.3, 1.3));
 
 			this.level.setGravityIntensity(this.level.defaultGravity * 0.25);
 

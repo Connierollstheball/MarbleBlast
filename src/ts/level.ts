@@ -1362,12 +1362,7 @@ export class Level extends Scheduler {
 	/** Gets the position and orientation of the player spawn point. */
 	getStartPositionAndOrientation() {
 		// The player is spawned at the last start pad in the mission file.
-		let startPad = Util.findLast(this.shapes, (shape) => shape instanceof StartPadMBU);
-
-		if (!startPad)
-		{
-			startPad = Util.findLast(this.shapes, (shape) => shape instanceof StartPad);
-		}
+		let startPad = Util.findLast(this.shapes, (shape) => shape instanceof StartPadMBU || shape instanceof StartPad);
 
 		let position: Vector3;
 		let euler = new Euler();
@@ -1646,13 +1641,7 @@ export class Level extends Scheduler {
 			this.finishYaw = this.yaw;
 			this.finishPitch = this.pitch;
 
-			let endPad = Util.findLast(this.shapes, (shape) => shape instanceof EndPadMBU) as EndPad;
-
-			if (!endPad)
-			{
-				endPad = Util.findLast(this.shapes, (shape) => shape instanceof EndPad) as EndPad;
-			}
-
+			let endPad = Util.findLast(this.shapes, (shape) => shape instanceof EndPad || shape instanceof EndPadMBU) as EndPad;
 			endPad?.spawnFirework(this.timeState); // EndPad *might* not exist, in that case no fireworks lol
 
 			state.menu.hud.displayAlert("Congratulations! You've finished!");
