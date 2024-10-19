@@ -44,7 +44,7 @@ import { Magnet } from "./shapes/magnet";
 import { Nuke, nukeSmokeParticle, nukeSparksParticle } from "./shapes/nuke";
 import { TeleportTrigger } from "./triggers/teleport_trigger";
 import { DestinationTrigger } from "./triggers/destination_trigger";
-import { Checkpoint } from "./shapes/checkpoint";
+import { Checkpoint, CheckpointMBXP } from "./shapes/checkpoint";
 import { CheckpointTrigger } from "./triggers/checkpoint_trigger";
 import { EasterEgg } from "./shapes/easter_egg";
 import { RandomPowerUp } from "./shapes/random_power_up";
@@ -702,6 +702,7 @@ export class Level extends Scheduler {
 		else if (dataBlockLowerCase === "magnet") shape = new Magnet();
 		else if (dataBlockLowerCase === "nuke") shape = new Nuke();
 		else if (dataBlockLowerCase === "checkpoint") shape = new Checkpoint();
+		else if (dataBlockLowerCase === "checkpoint_mbxp") shape = new CheckpointMBXP();
 		else if (dataBlockLowerCase === "easteregg") shape = new EasterEgg(element as MissionElementItem);
 		else if (dataBlockLowerCase === "randompowerupitem") shape = new RandomPowerUp(element as MissionElementItem);
 		else if (["clear", "cloudy", "dusk", "wintry"].includes(dataBlockLowerCase)) shape = new Sky(dataBlockLowerCase);
@@ -727,6 +728,23 @@ export class Level extends Scheduler {
 		if (shapeScale.z === 0) shapeScale.z = 0.0001;
 
 		shape.setTransform(shapePosition, shapeRotation, shapeScale);
+
+		// Because I can't get the Checkpoint animation to work, initiate a shape which will act as the active state of the Checkpoint. ~ Connie
+		if (dataBlockLowerCase === "checkpoint_mbxp") {
+			let fakecheckpad: Shape = new Shape();
+			fakecheckpad.dtsPath = "shapes/pads/checkpoint.dts";
+			fakecheckpad.collideable = false;
+			fakecheckpad.matNamesOverride["checkpoint_inactive"] = "checkpoint_active";
+			this.shapes.push(fakecheckpad);
+			await fakecheckpad.init(this);
+			fakecheckpad.setTransform(shapePosition, shapeRotation, shapeScale);
+			this.scene.add(fakecheckpad.group);
+	
+			for (let body of fakecheckpad.bodies) this.world.add(body);
+	
+			let checkpoint: CheckpointMBXP = shape as CheckpointMBXP;
+			checkpoint.fakeCheckPad = fakecheckpad;
+		}
 
 		this.scene.add(shape.group);
 
