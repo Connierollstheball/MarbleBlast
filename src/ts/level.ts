@@ -729,6 +729,7 @@ export class Level extends Scheduler {
 
 		shape.setTransform(shapePosition, shapeRotation, shapeScale);
 
+		// Because I can't get the Checkpoint animation to work, initiate a shape which will act as the active state of the Checkpoint. ~ Connie
 		if (dataBlockLowerCase === "checkpoint_mbxp") {
 			let fakecheckpad: Shape = new Shape();
 			fakecheckpad.dtsPath = "shapes/pads/checkpoint.dts";

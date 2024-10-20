@@ -18,10 +18,6 @@ export class CheckpointMBXP extends Checkpoint {
 	fakeCheckPad: Shape;
 	isActive = false;
 
-	onCheckpointActivate() {
-		this.isActive = true;
-	}
-
 	restartCheckpointShape()
 	{
 		this.isActive = false;
