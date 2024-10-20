@@ -769,7 +769,7 @@ export class Level extends Scheduler {
 			}
 		}
 
-		// Initiate a new material for the active state of a checkpoint. (Temporary Compromise?) ~ Connie
+		// Initiate a new material for the active state of a checkpoint, since I can't get the animation to work. ~ Connie
 		if (dataBlockLowerCase === "checkpoint_mbu")
 		{
 			let fakecheckpad: Shape = new Shape();

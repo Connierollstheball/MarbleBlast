@@ -13,7 +13,7 @@ export class CheckpointTrigger extends Trigger {
 
 		if (respawnShape.dtsPath === "shapes_mbu/pads/checkpad.dts") {
 			let MBUThing = respawnShape as CheckpointMBU;
-			MBUThing.onCheckpointActivate();
+			MBUThing.isActive = true;
 
 			if (this.level.currentCheckpoint && this.level.currentCheckpoint != respawnShape && this.level.currentCheckpoint.dtsPath === "shapes_mbu/pads/checkpad.dts") {
 				let OldMBUCheckpoint = this.level.currentCheckpoint as CheckpointMBU;
