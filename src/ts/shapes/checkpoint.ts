@@ -1,5 +1,6 @@
 import { Shape } from "../shape";
 import { TimeState } from "../level";
+import { state } from "../state";
 
 /** On contact, sets a new checkpoint with itself as the respawn shape. */
 export class Checkpoint extends Shape {
@@ -26,16 +27,19 @@ export class CheckpointMBU extends Checkpoint {
 	}
 
 	tick(time: TimeState, onlyVisual: boolean) {
-		if (this.isActive && this.fakeCheckPad.currentOpacity < 1)
-		{
-			this.fakeCheckPad.setOpacity(this.fakeCheckPad.currentOpacity + 0.01);
-			this.setOpacity(this.currentOpacity - 0.01);
-		}
+		// Because this doesn't work like an actual animation, have it not continue the animation when the game is paused. ~ Connie
+		if (!state.level.paused) {
+			if (this.isActive && this.fakeCheckPad.currentOpacity < 1)
+			{
+				this.fakeCheckPad.setOpacity(this.fakeCheckPad.currentOpacity + 0.005);
+				this.setOpacity(this.currentOpacity - 0.005);
+			}
 
-		if (!this.isActive && this.fakeCheckPad.currentOpacity > 0)
-		{
-			this.fakeCheckPad.setOpacity(this.fakeCheckPad.currentOpacity - 0.01);
-			this.setOpacity(this.currentOpacity + 0.01);			
+			if (!this.isActive && this.fakeCheckPad.currentOpacity > 0)
+			{
+				this.fakeCheckPad.setOpacity(this.fakeCheckPad.currentOpacity - 0.005);
+				this.setOpacity(this.currentOpacity + 0.005);			
+			}
 		}
 		
 		super.tick(time, onlyVisual);
